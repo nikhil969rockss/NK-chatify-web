@@ -16,4 +16,8 @@ import authRouter from "./routes/auth.route";
 
 app.use("/api/v1/auth", authRouter);
 
+//gloabal error middleware
+import { globalErrorMiddleware } from "./middlewares/globalError.middleware";
+app.use(globalErrorMiddleware);
+
 export default app;
