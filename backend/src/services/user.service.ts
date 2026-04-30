@@ -1,3 +1,4 @@
+import type { RootFilterQuery } from "mongoose";
 import UserModel from "../models/user.model";
 
 export const getUserByEmailOrId = async ({
@@ -38,6 +39,10 @@ export const updateUser = async ({
   ).select("-password");
 };
 
-export const getAllUser = async ({ query }: { query?: any }) => {
+export const getAllUser = async ({
+  query = {},
+}: {
+  query: RootFilterQuery<IUserDocument>;
+}) => {
   return await UserModel.find(query).select("-password");
 };

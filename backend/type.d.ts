@@ -49,10 +49,10 @@ declare global {
   };
 
   interface IMessage extends Document {
-    senderId: ObjectId;
-    receiverId: ObjectId;
-    text: string;
-    image: string;
+    senderId: ObjectId | string | unknown;
+    receiverId: ObjectId | string | unknown;
+    text: string | undefined;
+    image: string | undefined;
   }
 }
 export {};
