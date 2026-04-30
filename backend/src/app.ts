@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import path from "node:path";
 
-import { NODE_ENV } from "./config/env";
+import { ENV } from "./config/env";
 
 const app = express();
 const __dirname = path.resolve();
@@ -21,7 +21,7 @@ import { globalErrorMiddleware } from "./middlewares/globalError.middleware";
 app.use(globalErrorMiddleware);
 
 //make ready for deployment
-if (NODE_ENV === "production") {
+if (ENV.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   app.get("*", (_, res) => {

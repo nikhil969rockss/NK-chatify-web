@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/env";
+import { ENV } from "../config/env";
 
 /**
  * @description  Create a jwt token
@@ -13,10 +13,10 @@ export const createToken = ({
   user: any;
   expiresIn: any;
 }) => {
-  if (!JWT_SECRET) {
+  if (!ENV.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined");
   }
-  return jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn });
+  return jwt.sign({ userId: user._id }, ENV.JWT_SECRET, { expiresIn });
 };
 
 /**
@@ -25,8 +25,8 @@ export const createToken = ({
  * @returns
  */
 export const verifyToken = ({ token }: { token: string }) => {
-  if (!JWT_SECRET) {
+  if (!ENV.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined");
   }
-  return jwt.verify(token, JWT_SECRET);
+  return jwt.verify(token, ENV.JWT_SECRET);
 };
