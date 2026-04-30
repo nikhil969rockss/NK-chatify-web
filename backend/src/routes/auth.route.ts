@@ -4,6 +4,7 @@ import {
   loginController,
   logoutController,
 } from "../controllers/auth.controller";
+import { arcjetRateLimitter } from "../middlewares/arjet.middleware";
 
 const authRouter = express.Router();
 
