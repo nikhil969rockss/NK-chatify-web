@@ -3,6 +3,10 @@ import ApiError from "../lib/ApiError";
 import ApiResponse from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
 import { validateSignup, validateLogin } from "../lib/validate";
+import {
+  createBlackListToken,
+  isTokenBlackListed,
+} from "../services/blackList.service";
 import { sendRegistrationEmail } from "../services/email.service";
 import {
   createUser,
@@ -87,4 +91,31 @@ export const loginController = asyncHandler(async (req, res, next) => {
       token,
     }),
   );
+});
+
+/**
+ * @description logout user
+ */
+export const logoutController = asyncHandler(async (req, res, next) => {
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "User already logged out"));
+  }
+
+  const result = await isTokenBlackListed({ token });
+  if (result) {
+    throw new ApiError(
+      400,
+      "This token already blacklisted, User already logged out",
+    );
+  }
+
+  await createBlackListToken({ token });
+
+  res.clearCookie("token");
+
+  res.status(200).json(new ApiResponse(201, "User logout successfully"));
 });

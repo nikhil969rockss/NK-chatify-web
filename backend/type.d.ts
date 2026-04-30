@@ -33,5 +33,10 @@ declare global {
     text: string;
     html: string;
   }
+
+  interface IBlackListToken extends Document {
+    token: string;
+    createdAt: Date;
+  }
 }
 export {};
