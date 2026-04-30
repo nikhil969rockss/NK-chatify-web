@@ -25,7 +25,11 @@ export const validateSignup = (incomingData: signupData) => {
 
   const { success, data, error } = schema.safeParse(incomingData);
   if (!success) {
-    throw new ApiError(400, "validation failde", z.treeifyError(error));
+    throw new ApiError(
+      400,
+      "validation failde",
+      z.treeifyError(error).properties,
+    );
   }
   return data;
 };

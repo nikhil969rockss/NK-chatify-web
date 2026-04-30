@@ -10,6 +10,7 @@ declare global {
     statusCode?: number;
     message?: string;
     stack?: string;
+    errors?: any;
   }
 
   interface IUser {
@@ -25,5 +26,12 @@ declare global {
   }
 
   interface IUserModel extends Model<IUserDocument> {}
+
+  interface ISendEmail {
+    subject: string;
+    to: string;
+    text: string;
+    html: string;
+  }
 }
 export {};

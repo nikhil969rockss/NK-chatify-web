@@ -3,6 +3,7 @@ import ApiError from "../lib/ApiError";
 import ApiResponse from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
 import { validateSignup } from "../lib/validate";
+import { sendRegistrationEmail } from "../services/email.service";
 import {
   createUser,
   getUserByEmailOrId,
@@ -38,12 +39,12 @@ export const signupController = asyncHandler(async (req, res, next) => {
 
   const newUserResponse = await getUserByIdWithoutPassword(newUser._id);
 
-  return res
-    .status(201)
-    .json(
-      new ApiResponse(201, "User created successfully", {
-        newUserResponse,
-        token,
-      }),
-    );
+  res.status(201).json(
+    new ApiResponse(201, "User created successfully", {
+      user: newUserResponse,
+      token,
+    }),
+  );
+
+  await sendRegistrationEmail(newUser.email, newUser.fullName);
 });

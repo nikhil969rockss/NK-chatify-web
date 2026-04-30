@@ -21,6 +21,7 @@ export const globalErrorMiddleware = (
     success: false,
     message: error.message,
     stack: NODE_ENV === "development" ? error.stack : undefined,
+    errors: error.errors,
   };
 
   return res.status(error.statusCode!).json(response);
