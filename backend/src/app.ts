@@ -6,9 +6,11 @@ import { ENV } from "./config/env";
 
 const app = express();
 const __dirname = path.resolve();
+
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(arcjetRateLimitter); // for rate limiting
 
 //routes
 import authRouter from "./routes/auth.route";
@@ -20,6 +22,7 @@ app.use("/api/v1/user", userRouter);
 
 //gloabal error middleware
 import { globalErrorMiddleware } from "./middlewares/globalError.middleware";
+import { arcjetRateLimitter } from "./middlewares/arjet.middleware";
 app.use(globalErrorMiddleware);
 
 //make ready for deployment
