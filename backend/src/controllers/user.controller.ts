@@ -22,3 +22,9 @@ export const updateProfileController = asyncHandler(async (req, res, _) => {
     .status(200)
     .json(new ApiResponse(200, "profile updated successfully", updatedUser));
 });
+
+export const getMeController = asyncHandler(async (req, res, _) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "user fetched successfully", req.user));
+});
