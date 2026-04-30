@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ENV } from "../config/env";
+import ApiError from "./ApiError";
 
 /**
  * @description  Create a jwt token
@@ -28,5 +29,11 @@ export const verifyToken = ({ token }: { token: string }) => {
   if (!ENV.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined");
   }
-  return jwt.verify(token, ENV.JWT_SECRET);
+
+  try {
+    const decoded = jwt.verify(token, ENV.JWT_SECRET);
+    return decoded;
+  } catch (error) {
+    throw new ApiError(401, "Invalid token", error);
+  }
 };

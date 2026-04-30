@@ -19,3 +19,26 @@ export const getUserByIdWithoutPassword = async (id: string | unknown) => {
 export const createUser = async (userData: IUser) => {
   return await UserModel.create(userData);
 };
+
+type UpdateUserData = {
+  fullName?: string;
+  password?: string;
+  profilePic?: string;
+};
+export const updateUser = async ({
+  id,
+  userData,
+}: {
+  id: string | unknown;
+  userData: UpdateUserData;
+}) => {
+  let updatedData;
+  if (userData.profilePic) {
+    updatedData = userData.profilePic;
+  }
+  return await UserModel.findByIdAndUpdate(
+    id,
+    { profilePic: updatedData },
+    { new: true },
+  ).select("-password");
+};

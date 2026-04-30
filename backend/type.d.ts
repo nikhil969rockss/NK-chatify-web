@@ -2,7 +2,7 @@ import type { Request, Errback } from "express";
 import type { Document, Model } from "mongoose";
 declare global {
   interface IApiRequest extends Request {
-    user?: any;
+    user?: IUserDocument;
   }
 
   interface IApiError extends Errback {
@@ -37,6 +37,9 @@ declare global {
   interface IBlackListToken extends Document {
     token: string;
     createdAt: Date;
+  }
+  interface Idecoded {
+    userId: string;
   }
 }
 export {};

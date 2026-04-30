@@ -17,7 +17,7 @@ import {
 /**
  * @description signup user with fullName, email and password
  */
-export const signupController = asyncHandler(async (req, res, next) => {
+export const signupController = asyncHandler(async (req, res, _) => {
   //validate incoming requrest through zod
   const { fullName, email, password } = validateSignup(req.body);
 
@@ -56,7 +56,7 @@ export const signupController = asyncHandler(async (req, res, next) => {
 /**
  * @description login user with  email and password
  */
-export const loginController = asyncHandler(async (req, res, next) => {
+export const loginController = asyncHandler(async (req, res, _) => {
   //validate incoming requrest through zod
   const { email, password } = validateLogin(req.body);
 
@@ -96,7 +96,7 @@ export const loginController = asyncHandler(async (req, res, next) => {
 /**
  * @description logout user
  */
-export const logoutController = asyncHandler(async (req, res, next) => {
+export const logoutController = asyncHandler(async (req, res, _) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   if (!token) {

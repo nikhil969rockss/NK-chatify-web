@@ -12,9 +12,11 @@ app.use(cookieParser());
 
 //routes
 import authRouter from "./routes/auth.route";
+import userRouter from "./routes/user.route";
 
 //routes use
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
 
 //gloabal error middleware
 import { globalErrorMiddleware } from "./middlewares/globalError.middleware";
