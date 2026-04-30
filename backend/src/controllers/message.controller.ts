@@ -1,5 +1,8 @@
+import ApiError from "../lib/ApiError";
 import ApiResponse from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
+import { uploadToCloudinary } from "../lib/cloudinaryUpload";
+import { createMessage, getAllMessages } from "../services/message.service";
 import { getAllUser } from "../services/user.service";
 
 /**
@@ -25,16 +28,67 @@ export const getAllContactsController = asyncHandler(async (req, res, next) => {
  */
 export const getAllChatsController = asyncHandler(async (req, res, next) => {});
 
-//TODO: Implement the controllers
 /**
  * @description Get all chats of a particular user
  */
 export const getAllMessagesOfChatController = asyncHandler(
-  async (req, res, next) => {},
+  async (req, res, next) => {
+    const loggedInUser = req.user;
+    const { id: userToChatId } = req.params;
+
+    const allMessages = await getAllMessages({
+      query: {
+        $or: [
+          { senderId: loggedInUser?._id, receiverId: userToChatId },
+          { senderId: userToChatId, receiverId: loggedInUser?._id },
+        ],
+      },
+    });
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, "All messages fetched", { messages: allMessages }),
+      );
+  },
 );
 
-//TODO: Implement the controllers
 /**
  * @description Send a message to a particular user
  */
-export const sendMEssageController = asyncHandler(async (req, res, next) => {});
+export const sendMessageController = asyncHandler(async (req, res, next) => {
+  const loggedInUser = req.user;
+  const { id: toUserId } = req.params;
+
+  if (!toUserId) {
+    throw new ApiError(400, "user id is not provided for sending message");
+  }
+  const { text, image } = req.body;
+
+  if (!text && !image) {
+    throw new ApiError(400, "Message text or image is required");
+  }
+
+  //check sender can't send message to himself
+  if (toUserId === loggedInUser?._id?.toString()) {
+    throw new ApiError(400, "You can't send message to yourself");
+  }
+
+  let imageUrl: string = "";
+  if (image) {
+    //upload to cloudinary
+    imageUrl = await uploadToCloudinary({ file: image });
+  }
+
+  //  @ts-ignore
+  const message = await createMessage({
+    senderId: loggedInUser?._id,
+    receiverId: toUserId,
+    text,
+    image: imageUrl ? imageUrl : undefined,
+  });
+
+  //   TODO: send message in real time if user is online - socket.io
+
+  return res.status(200).json(new ApiResponse(200, "Message sent", message));
+});
