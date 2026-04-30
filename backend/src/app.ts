@@ -15,10 +15,12 @@ app.use(arcjetRateLimitter); // for rate limiting
 //routes
 import authRouter from "./routes/auth.route";
 import userRouter from "./routes/user.route";
+import messageRouter from "./routes/message.route";
 
 //routes use
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/messages", messageRouter);
 
 //gloabal error middleware
 import { globalErrorMiddleware } from "./middlewares/globalError.middleware";

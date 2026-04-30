@@ -20,11 +20,6 @@ export const createUser = async (userData: IUser) => {
   return await UserModel.create(userData);
 };
 
-type UpdateUserData = {
-  fullName?: string;
-  password?: string;
-  profilePic?: string;
-};
 export const updateUser = async ({
   id,
   userData,
@@ -41,4 +36,8 @@ export const updateUser = async ({
     { profilePic: updatedData },
     { new: true },
   ).select("-password");
+};
+
+export const getAllUser = async ({ query }: { query?: any }) => {
+  return await UserModel.find(query).select("-password");
 };

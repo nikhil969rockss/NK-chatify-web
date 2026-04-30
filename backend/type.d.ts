@@ -1,5 +1,5 @@
 import type { Request, Errback } from "express";
-import type { Document, Model } from "mongoose";
+import type { Document, Model, ObjectId } from "mongoose";
 declare global {
   interface IApiRequest extends Request {
     user?: IUserDocument;
@@ -40,6 +40,19 @@ declare global {
   }
   interface Idecoded {
     userId: string;
+  }
+
+  type UpdateUserData = {
+    fullName?: string;
+    password?: string;
+    profilePic?: string;
+  };
+
+  interface IMessage extends Document {
+    senderId: ObjectId;
+    receiverId: ObjectId;
+    text: string;
+    image: string;
   }
 }
 export {};
