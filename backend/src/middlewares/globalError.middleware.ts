@@ -1,6 +1,6 @@
 import type { Response, NextFunction } from "express";
 import ApiError from "../lib/ApiError";
-import { NODE_ENV } from "../config/env";
+import { ENV } from "../config/env";
 
 export const globalErrorMiddleware = (
   err: IApiError,
@@ -20,7 +20,7 @@ export const globalErrorMiddleware = (
     statusCode: error.statusCode,
     success: false,
     message: error.message,
-    stack: NODE_ENV === "development" ? error.stack : undefined,
+    stack: ENV.NODE_ENV === "development" ? error.stack : undefined,
     errors: error.errors,
   };
 

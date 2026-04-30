@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/env";
+import { ENV } from "../config/env";
 
 const userSchema = new mongoose.Schema<IUserDocument, IUserModel>(
   {
@@ -47,7 +47,7 @@ userSchema.methods.comparePassword = async function (password: string) {
 };
 
 userSchema.methods.createJWT = function () {
-  return jwt.sign({ userId: this._id }, JWT_SECRET!, { expiresIn: "7d" });
+  return jwt.sign({ userId: this._id }, ENV.JWT_SECRET!, { expiresIn: "7d" });
 };
 
 const UserModel = mongoose.model<IUserDocument, IUserModel>("User", userSchema);

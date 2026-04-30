@@ -1,4 +1,4 @@
-import { NODE_ENV } from "../config/env";
+import { ENV } from "../config/env";
 import ApiError from "../lib/ApiError";
 import ApiResponse from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
@@ -33,7 +33,7 @@ export const signupController = asyncHandler(async (req, res, next) => {
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week,
-    secure: NODE_ENV === "production" ? true : false,
+    secure: ENV.NODE_ENV === "production" ? true : false,
     sameSite: "strict", // to preventCSRF attack if domain is same, none is used for different domain
   });
 

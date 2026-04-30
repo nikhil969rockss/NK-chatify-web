@@ -1,19 +1,14 @@
 import nodemailer from "nodemailer";
-import {
-  GMAIL_CLIENT_ID,
-  GMAIL_CLIENT_SECRET,
-  REFRESH_TOKEN,
-  USER_EMAIL_ID,
-} from "../config/env";
+import { ENV } from "../config/env";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     type: "OAuth2",
-    user: USER_EMAIL_ID,
-    clientId: GMAIL_CLIENT_ID,
-    clientSecret: GMAIL_CLIENT_SECRET,
-    refreshToken: REFRESH_TOKEN,
+    user: ENV.USER_EMAIL_ID,
+    clientId: ENV.GMAIL_CLIENT_ID,
+    clientSecret: ENV.GMAIL_CLIENT_SECRET,
+    refreshToken: ENV.REFRESH_TOKEN,
   },
 });
 
@@ -29,7 +24,7 @@ transporter.verify((err, success) => {
 export const sendEmail = async ({ subject, to, text, html }: ISendEmail) => {
   try {
     const info = await transporter.sendMail({
-      from: `Chatify <${USER_EMAIL_ID}>`,
+      from: `Chatify <${ENV.USER_EMAIL_ID}>`,
       subject,
       to,
       text,
