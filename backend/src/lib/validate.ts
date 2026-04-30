@@ -7,6 +7,11 @@ type signupData = {
   password: string;
 };
 
+type loginData = {
+  email: string;
+  password: string;
+};
+
 export const validateSignup = (incomingData: signupData) => {
   if (!incomingData.fullName || !incomingData.email || !incomingData.password) {
     throw new ApiError(400, "Full name, email and password are required");
@@ -28,6 +33,26 @@ export const validateSignup = (incomingData: signupData) => {
     throw new ApiError(
       400,
       "validation failde",
+      z.treeifyError(error).properties,
+    );
+  }
+  return data;
+};
+
+export const validateLogin = (incomingData: loginData) => {
+  if (!incomingData.email || !incomingData.password) {
+    throw new ApiError(400, "Email and password are required");
+  }
+  const schema = z.object({
+    email: z.email({ error: "Please enter a valid email" }),
+    password: z.string(),
+  });
+  const { error, data, success } = schema.safeParse(incomingData);
+
+  if (!success) {
+    throw new ApiError(
+      400,
+      "validation failed",
       z.treeifyError(error).properties,
     );
   }

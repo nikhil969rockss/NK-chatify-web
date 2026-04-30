@@ -2,7 +2,7 @@ import { ENV } from "../config/env";
 import ApiError from "../lib/ApiError";
 import ApiResponse from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
-import { validateSignup } from "../lib/validate";
+import { validateSignup, validateLogin } from "../lib/validate";
 import { sendRegistrationEmail } from "../services/email.service";
 import {
   createUser,
@@ -47,4 +47,44 @@ export const signupController = asyncHandler(async (req, res, next) => {
   );
 
   await sendRegistrationEmail(newUser.email, newUser.fullName);
+});
+
+/**
+ * @description login user with  email and password
+ */
+export const loginController = asyncHandler(async (req, res, next) => {
+  //validate incoming requrest through zod
+  const { email, password } = validateLogin(req.body);
+
+  const user = await getUserByEmailOrId({ email });
+
+  if (!user) {
+    throw new ApiError(404, "User does not exists");
+  }
+
+  const isPasswordMatch = await user.comparePassword(password);
+
+  if (!isPasswordMatch) {
+    throw new ApiError(400, "Invalid credentials");
+  }
+
+  // create token
+  const token = user.createJWT();
+
+  //set token in cookie
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week,
+    secure: ENV.NODE_ENV === "production" ? true : false,
+    sameSite: "strict", // to preventCSRF attack if domain is same, none is used for different domain
+  });
+
+  const userResponse = await getUserByIdWithoutPassword(user._id);
+
+  res.status(200).json(
+    new ApiResponse(201, "User login successfully", {
+      user: userResponse,
+      token,
+    }),
+  );
 });
