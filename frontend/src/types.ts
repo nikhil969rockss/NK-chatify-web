@@ -23,11 +23,18 @@ export type SignupData = {
   password: string;
 };
 
+export type loginData = {
+  email: string;
+  password: string;
+};
+
 export interface AuthStore {
   user: User | null;
   isAuthenticated: boolean;
   isCheckingAuth: boolean;
   isSigningUp: boolean;
+  isLoggingIn: boolean;
   checkAuth: () => Promise<void>;
   signupUser: (data: SignupData) => Promise<void>;
+  loginUser: (data: loginData) => Promise<void>;
 }

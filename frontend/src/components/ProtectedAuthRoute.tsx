@@ -14,7 +14,7 @@ const ProtectedAuthRoute = ({ children }: { children: React.ReactNode }) => {
     if (isAuthenticated) {
       navigate("/", { replace: true });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   return children;
 };

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axiosInstance from "../config/axios";
-import type { AuthStore, SignupData } from "../types.ts";
+import type { AuthStore, SignupData, loginData } from "../types.ts";
 import { toast } from "react-toastify";
 
 const useAuthStore = create<AuthStore>((set) => ({
@@ -8,6 +8,7 @@ const useAuthStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
   isCheckingAuth: true,
   isSigningUp: false,
+  isLoggingIn: false,
 
   checkAuth: async () => {
     try {
@@ -16,7 +17,7 @@ const useAuthStore = create<AuthStore>((set) => ({
         user: res.data.data,
         isAuthenticated: true,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.log("Error in checkAuth", error?.response?.data);
       set({ user: null });
     } finally {
@@ -33,13 +34,40 @@ const useAuthStore = create<AuthStore>((set) => ({
         isAuthenticated: true,
       });
       toast.success("User signed up successfully");
-    } catch (error) {
+    } catch (error: any) {
       toast.error(
         error?.response?.data?.errors[0]?.errors[0] || "Error signing up user",
       );
       console.log("Error signing up user", error?.response?.data);
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+
+  loginUser: async (data: loginData) => {
+    set({ isLoggingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/login", data);
+      set({
+        user: res.data?.data?.user,
+        isAuthenticated: true,
+      });
+      toast.success("User logged in successfully");
+    } catch (error: any) {
+      console.log("Error logging in user", error?.response?.data);
+
+      if (
+        error?.response?.data?.message?.toLowerCase() === "validation failed"
+      ) {
+        toast.error(
+          error?.response?.data?.errors[0]?.errors[0] ||
+            "Error logging in user",
+        );
+        return;
+      }
+      toast.error(error?.response?.data?.message || "Error logging in user");
+    } finally {
+      set({ isLoggingIn: false });
     }
   },
 }));

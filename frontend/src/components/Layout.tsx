@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="absolute top-0 -left-4 size-96 bg-pink-500 rounded-full opacity-20 blur-[50px]" />
       <div className="absolute bottom-0 -right-4 size-96 bg-cyan-500 rounded-full opacity-20 blur-[50px]" />
 
-      <ToastContainer autoClose={4000} position="top-right" />
+      <ToastContainer autoClose={2000} theme="dark" position="top-right" />
       {children}
     </div>
   );
