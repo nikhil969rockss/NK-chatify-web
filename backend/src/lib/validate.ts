@@ -32,8 +32,9 @@ export const validateSignup = (incomingData: signupData) => {
   if (!success) {
     throw new ApiError(
       400,
-      "validation failde",
-      z.treeifyError(error).properties,
+      "validation failed",
+      // @ts-ignore
+      Object.values(z.treeifyError(error).properties),
     );
   }
   return data;
@@ -53,7 +54,8 @@ export const validateLogin = (incomingData: loginData) => {
     throw new ApiError(
       400,
       "validation failed",
-      z.treeifyError(error).properties,
+      // @ts-ignore
+      Object.values(z.treeifyError(error).properties),
     );
   }
   return data;

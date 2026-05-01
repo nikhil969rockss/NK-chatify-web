@@ -17,9 +17,17 @@ export interface ApiResponse<T> {
   message: string;
 }
 
+export type SignupData = {
+  fullName: string;
+  email: string;
+  password: string;
+};
+
 export interface AuthStore {
   user: User | null;
   isAuthenticated: boolean;
   isCheckingAuth: boolean;
+  isSigningUp: boolean;
   checkAuth: () => Promise<void>;
+  signupUser: (data: SignupData) => Promise<void>;
 }
