@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
 import Layout from "./components/Layout.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import ProtectedAuthRoute from "./components/ProtectedAuthRoute.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,17 +21,21 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: (
-      <Layout>
-        <LoginPage />,
-      </Layout>
+      <ProtectedAuthRoute>
+        <Layout>
+          <LoginPage />
+        </Layout>
+      </ProtectedAuthRoute>
     ),
   },
   {
     path: "/signup",
     element: (
-      <Layout>
-        <SignupPage />,
-      </Layout>
+      <ProtectedAuthRoute>
+        <Layout>
+          <SignupPage />
+        </Layout>
+      </ProtectedAuthRoute>
     ),
   },
 ]);
