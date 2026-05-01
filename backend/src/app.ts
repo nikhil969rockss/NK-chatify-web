@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import path from "node:path";
+import cors from "cors";
 
 import { ENV } from "./config/env";
 
@@ -10,6 +11,12 @@ const __dirname = path.resolve();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: ENV.CLIENT_URL,
+    credentials: true,
+  }),
+);
 app.use(arcjetRateLimitter); // for rate limiting
 
 //routes
