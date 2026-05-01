@@ -119,3 +119,9 @@ export const logoutController = asyncHandler(async (req, res, _) => {
 
   res.status(200).json(new ApiResponse(201, "User logout successfully"));
 });
+
+export const getMeController = asyncHandler(async (req, res, _) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "user fetched successfully", req.user));
+});
