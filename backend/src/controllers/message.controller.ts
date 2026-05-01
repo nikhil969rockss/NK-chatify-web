@@ -22,11 +22,39 @@ export const getAllContactsController = asyncHandler(async (req, res, next) => {
     );
 });
 
-//TODO: Implement the controllers
 /**
  * @description Get all people which user have sent messages or received
  */
-export const getAllChatsController = asyncHandler(async (req, res, next) => {});
+export const getAllChatsController = asyncHandler(async (req, res, next) => {
+  const loggedInUser = req.user;
+
+  // find all the messages either send or received by the user
+  const allMessages = await getAllMessages({
+    query: {
+      $or: [{ senderId: loggedInUser?._id }, { receiverId: loggedInUser?._id }],
+    },
+  });
+
+  // find the users id
+  const chatPartnerIds = [
+    ...new Set(
+      allMessages.map((message) =>
+        message.senderId?.toString() === loggedInUser?._id?.toString()
+          ? message.receiverId?.toString()
+          : message.senderId?.toString(),
+      ),
+    ),
+  ];
+  const allChatPartners = await getAllUser({
+    query: { _id: { $in: chatPartnerIds } },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "All chats fetched", { users: allChatPartners }),
+    );
+});
 
 /**
  * @description Get all chats of a particular user

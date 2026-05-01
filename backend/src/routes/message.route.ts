@@ -15,11 +15,10 @@ messageRouter.use(authenticateUser);
  */
 messageRouter.get("/contacts", getAllContactsController);
 
-// TODO: Will uncomment this later
-// /**
-//  * @route GET /api/v1/messages/chats
-//  */
-// messageRouter.get("/chats", getAllChatsController);
+/**
+ * @route GET /api/v1/messages/chats
+ */
+messageRouter.get("/chats", getAllChatsController);
 
 /**
  * @route GET /api/v1/messages/:id
