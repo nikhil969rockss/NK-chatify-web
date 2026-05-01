@@ -88,9 +88,6 @@ export const sendMessageController = asyncHandler(async (req, res, next) => {
   const loggedInUser = req.user;
   const { id: toUserId } = req.params;
 
-  if (!toUserId) {
-    throw new ApiError(400, "user id is not provided for sending message");
-  }
   const { text, image } = req.body;
 
   if (!text && !image) {
