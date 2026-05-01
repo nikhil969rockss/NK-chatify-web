@@ -6,6 +6,7 @@ import {
   sendMessageController,
 } from "../controllers/message.controller";
 import { authenticateUser } from "../middlewares/auth.middleware";
+import { validateObjectId } from "../middlewares/validateObjectId.middleware";
 
 const messageRouter = express.Router();
 
@@ -23,11 +24,11 @@ messageRouter.get("/chats", getAllChatsController);
 /**
  * @route GET /api/v1/messages/:id
  */
-messageRouter.get("/:id", getAllMessagesOfChatController);
+messageRouter.get("/:id", validateObjectId, getAllMessagesOfChatController);
 
 /**
  * @route POST /api/v1/messages/send/:id
  */
-messageRouter.post("/send/:id", sendMessageController);
+messageRouter.post("/send/:id", validateObjectId, sendMessageController);
 
 export default messageRouter;
