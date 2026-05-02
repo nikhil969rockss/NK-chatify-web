@@ -34,10 +34,11 @@ export interface AuthStore {
   isCheckingAuth: boolean;
   isSigningUp: boolean;
   isLoggingIn: boolean;
+  isLoggingOut: boolean;
   checkAuth: () => Promise<void>;
   signupUser: (data: SignupData) => Promise<void>;
   loginUser: (data: loginData) => Promise<void>;
-  logoutUsrer: () => Promise<void>;
+  logoutUser: () => Promise<void>;
 }
 
 export interface Chat extends Document {
@@ -61,4 +62,10 @@ export interface ChatStore {
   setSelectedUser: (user: User) => void;
   getAllContacts: () => Promise<void>;
   getAllMyChats: () => Promise<void>;
+}
+
+export interface UserProfileStore {
+  updatedUser: User | null;
+  isUpdating: boolean;
+  updateProfilePic: (imageFile: { profilePic: File | string }) => Promise<void>;
 }
