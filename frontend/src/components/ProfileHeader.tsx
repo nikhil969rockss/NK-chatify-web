@@ -80,6 +80,7 @@ const ProfileHeader = () => {
         <div className="flex gap-4 items-center">
           {/* LOGOUT BTN */}
           <button
+            //@ts-ignore
             onClick={() => document.getElementById("my_modal_2").showModal()}
             title="Logout"
             className="text-slate-400 hover:text-slate-200 transition-all duration-300"

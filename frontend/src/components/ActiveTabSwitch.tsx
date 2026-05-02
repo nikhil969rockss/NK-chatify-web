@@ -1,5 +1,34 @@
+import clsx from "clsx";
+import useChatStore from "../store/useChatStore";
+
 const ActiveTabSwitch = () => {
-  return <div>ActiveTabSwitch</div>;
+  const { activeTab, setActiveTab } = useChatStore();
+  return (
+    <div className="tabs tabs-boxed bg-transparent p-2 m-2">
+      <button
+        className={clsx(
+          "tab",
+          activeTab === "chats"
+            ? "bg-cyan-500/20 text-cyan-400"
+            : "text-slate-400",
+        )}
+        onClick={() => setActiveTab("chats")}
+      >
+        Chats
+      </button>
+      <button
+        className={clsx(
+          "tab",
+          activeTab === "contacts"
+            ? "bg-cyan-500/20 text-cyan-400"
+            : "text-slate-400",
+        )}
+        onClick={() => setActiveTab("contacts")}
+      >
+        Contacts
+      </button>
+    </div>
+  );
 };
 
 export default ActiveTabSwitch;
