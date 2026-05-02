@@ -54,6 +54,25 @@ const useChatStore = create<ChatStore>((set, get) => ({
       set({ isUsersLoading: false });
     }
   },
+
+  getMessagesByUserId: async (userId: string) => {
+    set({ isMessagesLoading: true });
+    try {
+      const res = await axiosInstance.get(`/messages/${userId}`);
+      set({ messages: res?.data?.data?.messages });
+    } catch (error) {
+      console.log(
+        `Error fetching messages of the user:${userId}`,
+        error?.response?.data,
+      );
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to fetch the messages with this user",
+      );
+    } finally {
+      set({ isMessagesLoading: false });
+    }
+  },
 }));
 
 export default useChatStore;

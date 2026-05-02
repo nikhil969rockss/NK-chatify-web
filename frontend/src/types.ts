@@ -62,6 +62,7 @@ export interface ChatStore {
   setSelectedUser: (user: User) => void;
   getAllContacts: () => Promise<void>;
   getAllMyChats: () => Promise<void>;
+  getMessagesByUserId: (userId: string) => Promise<void>;
 }
 
 export interface UserProfileStore {
