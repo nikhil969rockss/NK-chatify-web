@@ -9,6 +9,7 @@ const useAuthStore = create<AuthStore>((set) => ({
   isCheckingAuth: true,
   isSigningUp: false,
   isLoggingIn: false,
+  isLoggingOut: false,
 
   checkAuth: async () => {
     try {
@@ -71,7 +72,8 @@ const useAuthStore = create<AuthStore>((set) => ({
     }
   },
 
-  logoutUsrer: async () => {
+  logoutUser: async () => {
+    set({ isLoggingOut: true });
     try {
       await axiosInstance.post("/auth/logout");
       set({
@@ -82,6 +84,8 @@ const useAuthStore = create<AuthStore>((set) => ({
     } catch (error: any) {
       console.log("Error loggging out user", error?.response?.data);
       toast.error(error?.response?.data?.message || "Error logging out user");
+    } finally {
+      set({ isLoggingOut: false });
     }
   },
 }));
