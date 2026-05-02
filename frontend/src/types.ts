@@ -37,4 +37,28 @@ export interface AuthStore {
   checkAuth: () => Promise<void>;
   signupUser: (data: SignupData) => Promise<void>;
   loginUser: (data: loginData) => Promise<void>;
+  logoutUsrer: () => Promise<void>;
+}
+
+export interface Chat extends Document {
+  senderId: string;
+  receiverId: string;
+  text?: string;
+  image?: string;
+}
+
+export interface ChatStore {
+  allContacts: User[];
+  chats: User[];
+  messages: Chat[];
+  activeTab: "chats" | "contacts";
+  selectedUser: User | null;
+  isUsersLoading: boolean;
+  isMessagesLoading: boolean;
+  isSoundEnabled: string;
+  toggleSound: () => void;
+  setActiveTab: (tab: "chats" | "contacts") => void;
+  setSelectedUser: (user: User) => void;
+  getAllContacts: () => Promise<void>;
+  getAllMyChats: () => Promise<void>;
 }
