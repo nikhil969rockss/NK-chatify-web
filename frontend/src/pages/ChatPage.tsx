@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ActiveTabSwitch from "../components/ActiveTabSwitch";
 import BorderAnimatedContainer from "../components/AnimatedBorderContainer";
 import ChatContainer from "../components/ChatContainer";
@@ -9,7 +10,19 @@ import ProfileHeader from "../components/ProfileHeader";
 import useChatStore from "../store/useChatStore";
 
 const ChatPage = () => {
-  const { activeTab, selectedUser } = useChatStore();
+  const { activeTab, selectedUser, setSelectedUser } = useChatStore();
+
+  // Handle closing the selected user modal when the escape key is pressed
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedUser(null);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [setSelectedUser]);
 
   return (
     <div className="relative w-full max-w-6xl h-[800px] ">
