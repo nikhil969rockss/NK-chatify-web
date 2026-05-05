@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import path from "node:path";
 import cors from "cors";
+import { arcjetRateLimitter } from "./middlewares/arjet.middleware";
 
 import { ENV } from "./config/env";
 
@@ -31,7 +32,7 @@ app.use("/api/v1/messages", messageRouter);
 
 //gloabal error middleware
 import { globalErrorMiddleware } from "./middlewares/globalError.middleware";
-import { arcjetRateLimitter } from "./middlewares/arjet.middleware";
+
 app.use(globalErrorMiddleware);
 
 //make ready for deployment
