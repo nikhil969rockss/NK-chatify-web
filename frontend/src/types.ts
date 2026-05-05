@@ -1,8 +1,8 @@
 export interface Document {
   _id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  __v: number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  __v?: number;
 }
 
 export interface User extends Document {
@@ -63,6 +63,7 @@ export interface ChatStore {
   getAllContacts: () => Promise<void>;
   getAllMyChats: () => Promise<void>;
   getMessagesByUserId: (userId: string) => Promise<void>;
+  sendMessage: (data: { text: string; image: string }) => Promise<void>;
 }
 
 export interface UserProfileStore {

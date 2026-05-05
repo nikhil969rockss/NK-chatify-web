@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import ChatPage from "./pages/ChatPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 import Layout from "./components/Layout.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import ProtectedAuthRoute from "./components/ProtectedAuthRoute.tsx";
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
         </Layout>
       </ProtectedAuthRoute>
     ),
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 
