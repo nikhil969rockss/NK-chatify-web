@@ -1,3 +1,5 @@
+import type { Socket } from "socket.io-client";
+
 export interface Document {
   _id: string;
   createdAt?: Date | string;
@@ -35,10 +37,14 @@ export interface AuthStore {
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isLoggingOut: boolean;
+  socket: Socket;
+  onlineUsers: string[];
   checkAuth: () => Promise<void>;
   signupUser: (data: SignupData) => Promise<void>;
   loginUser: (data: loginData) => Promise<void>;
   logoutUser: () => Promise<void>;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
 }
 
 export interface Chat extends Document {
