@@ -4,6 +4,8 @@ import axiosInstance from "../config/axios";
 import { toast } from "react-toastify";
 import useAuthStore from "./useAuthStore";
 
+const notificationSound = new Audio("/sounds/notification.mp3");
+
 const useChatStore = create<ChatStore>((set, get) => ({
   allContacts: [],
   chats: [],
@@ -89,8 +91,6 @@ const useChatStore = create<ChatStore>((set, get) => ({
       createdAt: new Date().toISOString(),
     };
 
-    console.log("ye chala");
-
     try {
       set({ messages: messages.concat(optimisticMessage) });
       const res = await axiosInstance.post(
@@ -106,6 +106,37 @@ const useChatStore = create<ChatStore>((set, get) => ({
       // remove the optimistic message
       set({ messages: messages });
     }
+  },
+
+  subscribeToMessages: () => {
+    const { selectedUser, isSoundEnabled } = get();
+    if (!selectedUser) return;
+
+    const socket = useAuthStore.getState().socket;
+
+    socket.on("newMessage", (message) => {
+      const isMessageSentFromSelectedUser =
+        message?.senderId === selectedUser?._id;
+
+      // if the message is not sent from the selected user, then don't do anything
+      if (!isMessageSentFromSelectedUser) return;
+
+      const currentMessges = get().messages;
+
+      set({ messages: [...currentMessges, message] });
+
+      if (isSoundEnabled === "true") {
+        notificationSound.currentTime = 0;
+        notificationSound
+          .play()
+          .catch((e) => console.log("error playing notification sound", e));
+      }
+    });
+  },
+
+  unsubscribeToMessages: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("newMessage");
   },
 }));
 

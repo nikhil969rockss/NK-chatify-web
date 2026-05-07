@@ -101,7 +101,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
   connectSocket: () => {
     const { user, socket } = get();
-    if (!user || socket?.connected) return;
+    if (!user || socket?.connected || socket?.active) return;
 
     const socketClient = io(BASE_URL, { withCredentials: true });
 

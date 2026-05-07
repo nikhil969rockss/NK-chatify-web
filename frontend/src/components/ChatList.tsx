@@ -30,7 +30,7 @@ const ChatList = () => {
           <div className="flex items-center gap-3">
             <div
               className={clsx(
-                "avator",
+                "avatar",
                 onlineUsers.includes(chat._id) ? "online" : "offline",
               )}
             >
