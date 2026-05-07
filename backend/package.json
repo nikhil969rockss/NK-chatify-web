@@ -23,6 +23,7 @@
     "@arcjet/node": "^1.4.0",
     "bcryptjs": "2.4.3",
     "cloudinary": "2.5.1",
+    "cookie": "^1.1.1",
     "cookie-parser": "1.4.7",
     "cors": "^2.8.6",
     "dotenv": "16.4.7",
@@ -30,6 +31,7 @@
     "jsonwebtoken": "9.0.2",
     "mongoose": "8.10.1",
     "nodemailer": "^8.0.7",
+    "socket.io": "4.8.1",
     "zod": "^4.4.1"
   }
 }

@@ -1,5 +1,6 @@
 import type { Request, Errback } from "express";
 import type { Document, Model, ObjectId } from "mongoose";
+import type { Socket } from "socket.io";
 declare global {
   interface IApiRequest extends Request {
     user?: IUserDocument;
@@ -53,6 +54,11 @@ declare global {
     receiverId: ObjectId | string | unknown;
     text: string | undefined;
     image: string | undefined;
+  }
+
+  interface AuthSocket extends Socket {
+    user?: Omit<IUser, "password">;
+    userId?: string;
   }
 }
 export {};
