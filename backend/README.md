@@ -1,6 +1,95 @@
-# Chatify Backend API
+# 🚀 Chatify Backend
 
-A modern real-time chat application backend built with Express.js, TypeScript, and MongoDB. The API provides comprehensive endpoints for user authentication, profile management, and real-time messaging.
+<div align="center">
+
+![Bun](https://img.shields.io/badge/Bun-JavaScript%20Runtime-FFD700?style=flat-square&logo=bun)
+![Express](https://img.shields.io/badge/Express-4.21.2-black?style=flat-square&logo=express)
+![TypeScript](https://img.shields.io/badge/TypeScript-5%2B-blue?style=flat-square&logo=typescript)
+![MongoDB](https://img.shields.io/badge/MongoDB-8.10-green?style=flat-square&logo=mongodb)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.8.1-green?style=flat-square&logo=socket.io)
+![Node](https://img.shields.io/badge/Node-API-lightgrey?style=flat-square)
+
+**High-Performance Real-time Chat Backend API**
+
+[Features](#features) • [Setup](#setup) • [API Routes](#api-routes) • [Architecture](#architecture)
+
+</div>
+
+---
+
+## 📋 Overview
+
+Chatify Backend is a robust, scalable Express.js server running on the Bun JavaScript runtime. It powers real-time messaging with Socket.io, secure authentication, and MongoDB persistence.
+
+**Why Bun?**
+
+- ⚡ 4-5x faster than Node.js
+- 🔥 Built-in bundler & transpiler
+- 📦 Native TypeScript support
+- 🎯 Lower resource consumption
+
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & Authorization
+
+- JWT-based token authentication
+- HTTP-only cookie storage (XSS protection)
+- Bcryptjs password hashing (10 salt rounds)
+- Session management with automatic logout
+- Email verification for sign-up
+
+### 💬 Real-time Messaging
+
+- Socket.io for bi-directional communication
+- User presence tracking (online/offline status)
+- Instant message delivery
+- Notification sound support
+- User socket mapping for efficient broadcasting
+
+### 👥 User Management
+
+- User registration & login
+- Profile management
+- User search functionality
+- Contact list operations
+- Cloudinary image uploads
+
+### 🛡️ Security & Protection
+
+- **Rate Limiting** - Arcjet protection against DDoS/brute force
+- **Input Validation** - Zod schema validation on all endpoints
+- **CORS** - Strict cross-origin policies
+- **JWT Secrets** - Secure token generation
+- **Password Security** - Salted bcryptjs hashing
+- **MongoDB ObjectId Validation** - Custom middleware validation
+
+### 🔧 Infrastructure
+
+- **Error Handling** - Global error middleware with proper status codes
+- **Async Handler** - Wrapper for try-catch in routes
+- **Environment Config** - Centralized configuration management
+- **Logging** - Console logging for debugging
+
+---
+
+## 🛠️ Tech Stack
+
+```
+Runtime:        Bun 1.0+
+Framework:      Express 4.21.2
+Language:       TypeScript 5+
+Database:       MongoDB with Mongoose 8.10.1
+Real-time:      Socket.io 4.8.1
+Authentication: JWT (jsonwebtoken 9.0.2)
+Password Hash:  Bcryptjs 2.4.3
+Upload Service: Cloudinary 2.5.1
+Email:          Nodemailer 8.0.7
+Rate Limiting:  Arcjet 1.4.0
+Validation:     Zod 4.4.1
+Utilities:      Cookie-parser, CORS, Dotenv
+```
 
 ## Table of Contents
 
