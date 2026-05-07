@@ -21,9 +21,12 @@ const userSocketMap = new Map<string, any>(); // {userId: socketId}
 io.on("connection", (socket: AuthSocket) => {
   console.log("A user connected", socket.user?.fullName);
 
-  const userId = socket?.userId;
+  const userId = socket?.userId as string;
 
-  userSocketMap.set(userId!, socket.id);
+  const sockets = userSocketMap.get(userId) ?? new Set();
+  sockets.add(socket.id);
+
+  userSocketMap.set(userId!, sockets);
 
   // this will broadcast to all connected clients
   io.emit("getOnlineUsers", Array.from(userSocketMap.keys()));
@@ -31,7 +34,17 @@ io.on("connection", (socket: AuthSocket) => {
   // listen events from the clients
   socket.on("disconnect", () => {
     console.log("A user disconnected", socket.user?.fullName);
-    userSocketMap.delete(userId!);
+
+    const sockets = userSocketMap.get(userId);
+
+    if (sockets) {
+      sockets.delete(socket.id);
+
+      if (sockets.size === 0) {
+        userSocketMap.delete(userId);
+      }
+    }
+
     io.emit("getOnlineUsers", Array.from(userSocketMap.keys()));
   });
 });
