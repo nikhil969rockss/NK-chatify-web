@@ -9,8 +9,14 @@ import MessageLoadingSkeleton from "./MessageLoadingSkeleton";
 import MessageInput from "./MessageInput";
 
 const ChatContainer = () => {
-  const { selectedUser, getMessagesByUserId, messages, isMessagesLoading } =
-    useChatStore();
+  const {
+    selectedUser,
+    getMessagesByUserId,
+    messages,
+    isMessagesLoading,
+    subscribeToMessages,
+    unsubscribeToMessages,
+  } = useChatStore();
 
   const { user } = useAuthStore();
 
@@ -18,7 +24,15 @@ const ChatContainer = () => {
 
   useEffect(() => {
     getMessagesByUserId(selectedUser?._id);
-  }, [selectedUser, getMessagesByUserId]);
+    subscribeToMessages();
+
+    return () => unsubscribeToMessages();
+  }, [
+    selectedUser,
+    getMessagesByUserId,
+    unsubscribeToMessages,
+    subscribeToMessages,
+  ]);
 
   const groupedMessages = messages
     .sort(
@@ -29,6 +43,7 @@ const ChatContainer = () => {
       ...msg,
       day: getMessageDay(msg.createdAt),
     }));
+  console.log(groupedMessages);
 
   useEffect(() => {
     endRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -55,7 +70,7 @@ const ChatContainer = () => {
                 <div key={message._id}>
                   {showDateBadge && (
                     <div className="flex justify-center">
-                      <p className="text-center badge !bg-slate-600 ">
+                      <p className="text-center badge !bg-slate-600 my-2 ">
                         {message.day}
                       </p>
                     </div>

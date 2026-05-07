@@ -70,6 +70,8 @@ export interface ChatStore {
   getAllMyChats: () => Promise<void>;
   getMessagesByUserId: (userId: string) => Promise<void>;
   sendMessage: (data: { text: string; image: string }) => Promise<void>;
+  subscribeToMessages: () => void;
+  unsubscribeToMessages: () => void;
 }
 
 export interface UserProfileStore {

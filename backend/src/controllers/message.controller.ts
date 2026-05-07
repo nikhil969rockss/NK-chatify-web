@@ -1,3 +1,4 @@
+import { getReceiverSocketId, io } from "../config/socket";
 import ApiError from "../lib/ApiError";
 import ApiResponse from "../lib/ApiResponse";
 import { asyncHandler } from "../lib/asyncHandler";
@@ -113,7 +114,11 @@ export const sendMessageController = asyncHandler(async (req, res, next) => {
     image: imageUrl ? imageUrl : undefined,
   });
 
-  //   TODO: send message in real time if user is online - socket.io
+  const receiverSocketId = getReceiverSocketId(toUserId as string);
+
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit("newMessage", message);
+  }
 
   return res.status(200).json(new ApiResponse(200, "Message sent", message));
 });
