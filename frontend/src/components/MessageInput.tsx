@@ -10,7 +10,7 @@ const MessageInput = () => {
   const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { sendMessage, isSoundEnabled } = useChatStore();
 
@@ -26,7 +26,9 @@ const MessageInput = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
     const file = e.target.files[0];
+
     if (!file.type.startsWith("image/"))
       return toast.error("Please select an image file");
 

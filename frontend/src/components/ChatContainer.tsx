@@ -23,7 +23,7 @@ const ChatContainer = () => {
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    getMessagesByUserId(selectedUser?._id);
+    if (selectedUser) getMessagesByUserId(selectedUser._id!);
     subscribeToMessages();
 
     return () => unsubscribeToMessages();
@@ -112,7 +112,7 @@ const ChatContainer = () => {
         ) : isMessagesLoading ? (
           <MessageLoadingSkeleton />
         ) : (
-          <NoChatHistory name={selectedUser?.fullName} />
+          <NoChatHistory name={selectedUser?.fullName as string} />
         )}
       </div>
       <MessageInput />

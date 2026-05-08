@@ -2,7 +2,7 @@ import type { Socket } from "socket.io-client";
 
 export interface Document {
   _id: string;
-  createdAt?: Date | string;
+  createdAt: Date | string;
   updatedAt?: Date | string;
   __v?: number;
 }
@@ -37,7 +37,7 @@ export interface AuthStore {
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isLoggingOut: boolean;
-  socket: Socket;
+  socket: Socket | null;
   onlineUsers: string[];
   checkAuth: () => Promise<void>;
   signupUser: (data: SignupData) => Promise<void>;
@@ -65,7 +65,7 @@ export interface ChatStore {
   isSoundEnabled: string;
   toggleSound: () => void;
   setActiveTab: (tab: "chats" | "contacts") => void;
-  setSelectedUser: (user: User) => void;
+  setSelectedUser: (user: User | null) => void;
   getAllContacts: () => Promise<void>;
   getAllMyChats: () => Promise<void>;
   getMessagesByUserId: (userId: string) => Promise<void>;
