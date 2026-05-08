@@ -117,7 +117,10 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   disconnectSocket: () => {
-    if (get().socket?.connected) get().socket.disconnect();
+    const { socket } = get();
+    if (socket && socket.connected) {
+      socket.disconnect();
+    }
   },
 }));
 export default useAuthStore;

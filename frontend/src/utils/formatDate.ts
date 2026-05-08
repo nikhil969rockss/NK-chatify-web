@@ -14,14 +14,14 @@ function formatCreatedAtIntl(date: Date | string) {
 }
 // Output: "10/25/2023, 3:30 PM"
 
-const DATE_DAY = {
+const DATE_DAY: Record<number, string> = {
+  0: "Sunday",
   1: "Monday",
   2: "Tuesday",
   3: "Wednesday",
   4: "Thursday",
   5: "Friday",
   6: "Saturday",
-  7: "Sunday",
 };
 
 export const getMessageDay = (date: Date | string) => {
@@ -45,7 +45,7 @@ export const getMessageDay = (date: Date | string) => {
 
   if (diffInDays === 0) return "Today";
   if (diffInDays === 1) return "Yesterday";
-  if (diffInDays <= 7) return DATE_DAY[input.getDay()];
+  if (diffInDays <= 7) return DATE_DAY[input.getDay()] || "Unknown";
 
   if (input.getFullYear() === now.getFullYear()) {
     return input.toDateString().slice(0, 10);

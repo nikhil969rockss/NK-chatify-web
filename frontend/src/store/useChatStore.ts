@@ -26,7 +26,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
   },
 
   setActiveTab: (tab: "chats" | "contacts") => set({ activeTab: tab }),
-  setSelectedUser: (user: User) => set({ selectedUser: user }),
+  setSelectedUser: (user: User | null) => set({ selectedUser: user }),
 
   getAllContacts: async () => {
     set({ isUsersLoading: true });
@@ -63,7 +63,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
     try {
       const res = await axiosInstance.get(`/messages/${userId}`);
       set({ messages: res?.data?.data?.messages });
-    } catch (error) {
+    } catch (error: any) {
       console.log(
         `Error fetching messages of the user:${userId}`,
         error?.response?.data,
@@ -84,10 +84,10 @@ const useChatStore = create<ChatStore>((set, get) => ({
     // using optimistic UI updates
     const optimisticMessage = {
       _id: Date.now().toLocaleString(),
-      senderId: user?._id,
-      receiverId: selectedUser?._id,
-      text: messageData?.text,
-      image: messageData?.image,
+      senderId: user?._id as string,
+      receiverId: selectedUser?._id as string,
+      text: messageData?.text as string,
+      image: messageData?.image as string,
       createdAt: new Date().toISOString(),
     };
 
@@ -98,7 +98,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
         messageData,
       );
       set({ messages: messages.concat(res?.data?.data) });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(
         error?.response?.data?.message ||
           "Some error occurred while sending the message",
@@ -113,6 +113,8 @@ const useChatStore = create<ChatStore>((set, get) => ({
     if (!selectedUser) return;
 
     const socket = useAuthStore.getState().socket;
+
+    if (!socket) return;
 
     socket.on("newMessage", (message) => {
       const isMessageSentFromSelectedUser =
@@ -136,6 +138,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
 
   unsubscribeToMessages: () => {
     const socket = useAuthStore.getState().socket;
+    if (!socket) return;
     socket.off("newMessage");
   },
 }));

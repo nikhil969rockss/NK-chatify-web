@@ -13,7 +13,9 @@ const ChatHeader = () => {
         <div
           className={clsx(
             "avatar",
-            onlineUsers.includes(selectedUser?._id) ? "online" : "offline",
+            onlineUsers.includes(selectedUser?._id as string)
+              ? "online"
+              : "offline",
           )}
         >
           <div className="size-12 rounded-full overflow-hidden">
@@ -25,10 +27,12 @@ const ChatHeader = () => {
         </div>
         <div>
           <h3 className="text-slate-200 font-medium">
-            {selectedUser.fullName}
+            {selectedUser?.fullName}
           </h3>
           <p className="text-slate-400 text-sm">
-            {onlineUsers.includes(selectedUser?._id) ? "Online" : "Offline"}
+            {onlineUsers.includes(selectedUser?._id as string)
+              ? "Online"
+              : "Offline"}
           </p>
         </div>
       </div>

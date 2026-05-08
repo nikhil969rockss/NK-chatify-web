@@ -16,7 +16,7 @@ const ProfileHeader = () => {
   const { updateProfilePic } = useUserProfileStore();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 
@@ -46,7 +46,9 @@ const ProfileHeader = () => {
           <div className="avatar online">
             <button
               className="size-14 rounded-full relative group overflow-hidden"
-              onClick={() => fileInputRef.current.click()}
+              onClick={() =>
+                fileInputRef.current && fileInputRef.current.click()
+              }
             >
               <img
                 src={selectedImage || user?.profilePic || "/images/avatar.png"}
