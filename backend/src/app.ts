@@ -19,7 +19,7 @@ app.use(
     credentials: true,
   }),
 );
-// app.use(arcjetRateLimitter); // for rate limiting
+app.use(arcjetRateLimitter); // for rate limiting
 
 //routes
 import authRouter from "./routes/auth.route";
